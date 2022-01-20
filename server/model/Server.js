@@ -1,9 +1,8 @@
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
-// const path = require('path');
-const Sockets = require('./Sockets');
-const cors = require('cors');
+import express from 'express';
+import http from 'http';
+import Sockets from './Sockets.js';
+import { Server as socketIo } from 'socket.io';
+// const cors = require('cors');
 
 class Server {
   constructor() {
@@ -14,7 +13,7 @@ class Server {
     this.server = http.createServer(this.app);
 
     // socket
-    this.io = socketIo(this.server, {
+    this.io = new socketIo(this.server, {
       /* config */
     });
   }
@@ -27,7 +26,7 @@ class Server {
     this.app.use(express.static('public'));
 
     // cors
-    this.app.use(cors());
+    // this.app.use(cors());
   }
 
   execute() {
@@ -43,4 +42,4 @@ class Server {
   }
 }
 
-module.exports = Server;
+export default Server;
