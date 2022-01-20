@@ -1,14 +1,17 @@
+import TicketList from './TicketList.js';
+
 class Sockets {
   constructor(io) {
     this.io = io;
+    this.TicketList = new TicketList();
     this.socketEvens();
   }
 
   socketEvens() {
     this.io.on('connection', (socket) => {
-      console.log(socket.id);
-      socket.on('message-to-server', (data) => {
-        this.io.emit('message-from-server', data);
+      socket.on('create-ticket', (_, callback) => {
+        const newTicket = this.TicketList.createTicket();
+        callback(newTicket);
       });
     });
   }
