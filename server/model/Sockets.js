@@ -6,8 +6,8 @@ class Sockets {
 
   socketEvens() {
     this.io.on('connection', (socket) => {
+      console.log(socket.id);
       socket.on('message-to-server', (data) => {
-        console.log(data);
         this.io.emit('message-from-server', data);
       });
     });

@@ -3,6 +3,7 @@ import http from 'http';
 import Sockets from './Sockets.js';
 import { Server as socketIo } from 'socket.io';
 // const cors = require('cors');
+import cors from 'cors';
 
 class Server {
   constructor() {
@@ -15,6 +16,9 @@ class Server {
     // socket
     this.io = new socketIo(this.server, {
       /* config */
+      cors: {
+        origin: '*',
+      },
     });
   }
 
@@ -26,7 +30,7 @@ class Server {
     this.app.use(express.static('public'));
 
     // cors
-    // this.app.use(cors());
+    this.app.use(cors());
   }
 
   execute() {
