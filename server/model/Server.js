@@ -1,8 +1,8 @@
 import express from 'express';
 import http from 'http';
-import Sockets from './Sockets.js';
 import { Server as socketIo } from 'socket.io';
-// const cors = require('cors');
+
+import Sockets from './Sockets.js';
 import cors from 'cors';
 
 class Server {
@@ -20,25 +20,28 @@ class Server {
         origin: '*',
       },
     });
+
+    this.socket = new Sockets(this.io);
   }
 
-  configSocket() {
-    new Sockets(this.io);
-  }
+  configSocket() {}
 
   middleware() {
     this.app.use(express.static('public'));
-
-    // cors
     this.app.use(cors());
+
+    this.app.get('/latest', (req, res) => {
+      console.log(req);
+      res.json({
+        ok: true,
+        latestTickets: this.socket.TicketList.latest13,
+      });
+    });
   }
 
   execute() {
     // use middleware
     this.middleware();
-
-    // config socket
-    this.configSocket();
 
     this.server.listen(this.port, () => {
       console.log(`server is running on prot ${this.port}`);

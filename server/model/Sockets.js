@@ -13,6 +13,13 @@ class Sockets {
         const newTicket = this.TicketList.createTicket();
         callback(newTicket);
       });
+
+      socket.on('first-pending-ticket', ({ agent, table }, callback) => {
+        const firstTicketInPending = this.TicketList.assignTicket(agent, table);
+        callback(firstTicketInPending);
+
+        this.io.emit('assigned-ticket', this.TicketList.latest13);
+      });
     });
   }
 }

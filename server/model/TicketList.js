@@ -24,6 +24,7 @@ class TicketList {
 
   assignTicket(agent, table) {
     if (!this.pending.length) return null;
+
     const firstTicketInPending = this.pending.shift();
     firstTicketInPending.agent = agent;
     firstTicketInPending.table = table;

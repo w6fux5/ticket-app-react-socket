@@ -7,12 +7,10 @@ import { SocketProvider } from './context/SocketContext';
 import { UiProvider } from './context/UiContext';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <SocketProvider>
-      <UiProvider>
-        <App />
-      </UiProvider>
-    </SocketProvider>
-  </React.StrictMode>,
+  <SocketProvider>
+    <UiProvider>
+      <App />
+    </UiProvider>
+  </SocketProvider>,
   document.getElementById('root')
 );

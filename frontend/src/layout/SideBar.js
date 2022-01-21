@@ -29,7 +29,7 @@ const SideBar = ({ collapsed }) => {
       // breakpoint="md"
     >
       <div className={styles.logo} />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+      <Menu theme="dark" mode="inline">
         <Menu.Item key="1" icon={<UserOutlined />}>
           <Link to="/login">Login</Link>
         </Menu.Item>

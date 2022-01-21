@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+
+// Antd
 import { Row, Col, Typography, Button, Divider } from 'antd';
 import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons';
 
@@ -7,6 +9,9 @@ import { Redirect } from 'react-router-dom';
 // Hooks
 import useHideMenu from '../hooks/useHideMenu';
 
+// Context
+import { SocketContext } from '../context/SocketContext';
+
 // Helpers
 import { getUserFromStorage } from '../helpers/userInfoHelper';
 
@@ -14,7 +19,14 @@ const { Title, Text } = Typography;
 
 const Table = ({ history }) => {
   useHideMenu(false);
+
+  // Init State
   const [userInfo] = useState(getUserFromStorage());
+  const [ticket, setTicket] = useState(null);
+
+  // Context
+  const { socket } = useContext(SocketContext);
+
   if (!userInfo?.agent || !userInfo?.table) {
     return <Redirect to="/login" />;
   }
@@ -25,7 +37,9 @@ const Table = ({ history }) => {
   };
 
   const getTickHandler = () => {
-    console.log('get ticket');
+    socket.emit('first-pending-ticket', userInfo, (ticket) => {
+      setTicket(ticket);
+    });
   };
   return (
     <>
@@ -46,14 +60,16 @@ const Table = ({ history }) => {
 
       <Divider />
 
-      <Row>
-        <Col>
-          <Text>Ticket Number: </Text>
-          <Text style={{ fontSize: 30 }} type="danger">
-            12
-          </Text>
-        </Col>
-      </Row>
+      {ticket && (
+        <Row>
+          <Col>
+            <Text>Ticket Number: </Text>
+            <Text style={{ fontSize: 30 }} type="danger">
+              {ticket.number}
+            </Text>
+          </Col>
+        </Row>
+      )}
 
       <Row>
         <Col span={6} align="right" offset={18}>

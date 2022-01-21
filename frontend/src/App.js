@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 // Antd
 import { Layout } from 'antd';
 
-
 // Router
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
@@ -45,7 +44,7 @@ const App = () => {
             <Route path="/queue" component={Queue} />
             <Route path="/create-ticket" component={CreateTicket} />
             <Route path="/table" component={Table} />
-            <Redirect to="/login" />
+            {/* <Redirect to="/login" /> */}
           </Content>
         </Layout>
       </Layout>
